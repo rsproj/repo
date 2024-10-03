@@ -1,0 +1,24 @@
+/etc/caddy/Caddyfile
+# eu nunca posso recuar  mudei dinovooou
+# deployando no user deploy para prod
+
+rsp.ropsoft.cloud {
+ 
+   # Proxy reverso para um serviço local
+    reverse_proxy localhost:8222
+
+    # Proxy reverso para o repositório Debian
+    reverse_proxy /origin deb.debian.org/debian/ {
+        header_up Host {http.reverse_proxy.upstream.host}
+        header_up X-Real-IP {http.request.remote.addr}
+        header_up X-Forwarded-For {http.request.remote.addr}
+        header_up X-Forwarded-Proto {http.request.scheme}
+    }
+
+    # Configuração de log
+    log {
+        output file /home/deploy/@ropsoft/ropsoft.cloud/rsp.ropsoft.cloud/repository/log
+    }
+}
+
+...
